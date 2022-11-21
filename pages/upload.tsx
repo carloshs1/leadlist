@@ -1,19 +1,19 @@
-import type { NextPage } from 'next'
+import { NextPage } from 'next'
 import Head from 'next/head'
 
-const Home: NextPage = () => {
+const UploadPage: NextPage = () => {
  return (
   <div className="flex min-h-screen flex-col items-center justify-center">
    <Head>
-    <title>LeadList</title>
+    <title>Upload - LeadList</title>
     <link rel="icon" href="/favicon.ico" />
    </Head>
 
    <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-    <h1>HEllo</h1>
+    <h1>Upload</h1>
    </main>
   </div>
  )
 }
 
-export default Home
+export default UploadPage
