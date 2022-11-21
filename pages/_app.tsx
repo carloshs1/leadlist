@@ -6,10 +6,8 @@ import { RecoilRoot } from 'recoil'
 function MyApp({ Component, pageProps }: AppProps) {
  return (
   <RecoilRoot>
-   <div>
-    <Header />
-    <Component {...pageProps} />
-   </div>
+   <Header />
+   <Component {...pageProps} />
   </RecoilRoot>
  )
 }
