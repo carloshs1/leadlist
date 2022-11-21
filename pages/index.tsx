@@ -17,7 +17,7 @@ const Home: NextPage = () => {
     {!leads?.length ? (
      <div className="flex gap-1">
       <h1>You have no leads.</h1>
-      <Link href={'/upload'} className="hover:text-blue-700">
+      <Link href={'/upload'} className="hover:text-violet-600">
        Upload yor file to start
       </Link>
      </div>

@@ -7,7 +7,7 @@ const Header: React.FC = () => {
   <header className="flex sticky top-0 z-50 bg-white px-4 py-2 shadow-sm items-center w-full justify-between">
    <div className="cursor-pointer">
     <Link href={'/'} passHref className="flex items-center gap-3">
-     <ChatBubbleOvalLeftIcon className="h-9" />
+     <ChatBubbleOvalLeftIcon className="h-9 text-violet-600" />
      <h1 className="text-4xl font-thin">LeadList</h1>
     </Link>
    </div>
