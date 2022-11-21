@@ -6,8 +6,10 @@ import Papa from 'papaparse'
 import { LeadCSVType, LeadType } from '../utils/types'
 import { useSetRecoilState } from 'recoil'
 import { leadsState } from '../atoms/leadsAtom'
+import { useRouter } from 'next/router'
 
 const UploadPage: NextPage = () => {
+ const router = useRouter()
  const filePickerRef = useRef<HTMLInputElement | null>(null)
  // const [file, setFile] = useState<string | ArrayBuffer | null>(null)
  const setLeads = useSetRecoilState(leadsState)
@@ -40,8 +42,8 @@ const UploadPage: NextPage = () => {
      archived: leadCSV.Archivado,
      manuallyCreated: leadCSV['Creado Manualmente'],
     }))
-    console.warn(leads)
     setLeads(leads)
+    router.push('/')
    },
   })
  }
