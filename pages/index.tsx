@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRecoilValue } from 'recoil'
 import { leadsState } from '../atoms/leadsAtom'
+import { v4 as uuid } from 'uuid'
 
 const Home: NextPage = () => {
  const leads = useRecoilValue(leadsState)
@@ -24,7 +25,7 @@ const Home: NextPage = () => {
     ) : (
      <>
       {leads.map((lead) => (
-       <h1>{lead.name}</h1>
+       <h1 key={uuid()}>{lead.name}</h1>
       ))}
      </>
     )}
