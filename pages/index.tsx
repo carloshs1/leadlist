@@ -158,7 +158,7 @@ const Home: NextPage = () => {
         </thead>
         <tbody>
          {leads.map((lead, index) =>
-          leads.length === index + 1 ? (
+          leads.length - index === 4 ? (
            <Row
             innerRef={lastLeadOnTableRef}
             key={uuid()}
