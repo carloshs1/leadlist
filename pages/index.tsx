@@ -6,11 +6,15 @@ import React, { useCallback, useRef, useState } from 'react'
 import { LeadType } from '../utils/types'
 import useAddLeads from '../hooks/useAddLeads'
 import Row from '../components/Row'
+import { leadsState } from '../atoms/leadsAtom'
+import { useRecoilValue } from 'recoil'
 
 const Home: NextPage = () => {
+ const fullLeads = useRecoilValue(leadsState)
  const observer: React.MutableRefObject<IntersectionObserver | undefined> =
   useRef()
  const [pageNumber, setPageNumber] = useState(1)
+ const [query, setQuery] = useState('')
  const {
   loading,
   hasMore,
@@ -21,7 +25,7 @@ const Home: NextPage = () => {
   hasMore: boolean
   leads: LeadType[]
   numberOfLeads: number
- } = useAddLeads(pageNumber)
+ } = useAddLeads(pageNumber, query)
  const lastLeadOnTableRef = useCallback(
   (node: Element) => {
    if (loading) return
@@ -43,7 +47,7 @@ const Home: NextPage = () => {
    </Head>
 
    <main className="flex w-full flex-col items-center justify-center text-center py-5 px-3">
-    {!leads?.length ? (
+    {!fullLeads?.length ? (
      <div className="flex gap-1">
       <h1>You have no leads.</h1>
       <Link href={'/upload'} className="hover:text-violet-600">
@@ -76,7 +80,11 @@ const Home: NextPage = () => {
          type="text"
          id="table-search"
          className="block p-2 pl-10 w-full max-w-md text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-         placeholder="Search for items"
+         placeholder="Search by name or phone number"
+         onChange={(e) => {
+          setQuery(e.target.value)
+          setPageNumber(1)
+         }}
         />
        </div>
       </div>
