@@ -15,8 +15,13 @@ const Home: NextPage = () => {
   loading,
   hasMore,
   leads,
- }: { loading: boolean; hasMore: boolean; leads: LeadType[] } =
-  useAddLeads(pageNumber)
+  numberOfLeads,
+ }: {
+  loading: boolean
+  hasMore: boolean
+  leads: LeadType[]
+  numberOfLeads: number
+ } = useAddLeads(pageNumber)
  const lastLeadOnTableRef = useCallback(
   (node: Element) => {
    if (loading) return
@@ -75,10 +80,14 @@ const Home: NextPage = () => {
         />
        </div>
       </div>
+      <p>Number Of Leads: {numberOfLeads}</p>
       <div className="overflow-auto relative h-[60vh]">
        <table className="w-full text-xs text-left text-gray-500">
         <thead className="sticky top-0 text-xs text-gray-700 bg-gray-50">
          <tr>
+          <th scope="col" className="py-3 px-6">
+           Leads
+          </th>
           <th scope="col" className="py-3 px-6 whitespace-nowrap">
            Phone Number
           </th>
@@ -150,9 +159,14 @@ const Home: NextPage = () => {
         <tbody>
          {leads.map((lead, index) =>
           leads.length === index + 1 ? (
-           <Row innerRef={lastLeadOnTableRef} key={uuid()} lead={lead} />
+           <Row
+            innerRef={lastLeadOnTableRef}
+            key={uuid()}
+            lead={lead}
+            index={index + 1}
+           />
           ) : (
-           <Row key={uuid()} lead={lead} />
+           <Row key={uuid()} lead={lead} index={index + 1} />
           )
          )}
          {loading && (

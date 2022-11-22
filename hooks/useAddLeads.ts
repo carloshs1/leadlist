@@ -8,6 +8,7 @@ const useAddLeads = (pageNumber: number) => {
  const [loading, setLoading] = useState(true)
  const [leads, setLeads] = useState<LeadType[]>([])
  const [hasMore, setHasMore] = useState(false)
+ const numberOfLeads = fullLeads.length
  useEffect(() => {
   setLoading(true)
   const newLeads = fullLeads.slice((pageNumber - 1) * 15, pageNumber * 15)
@@ -15,7 +16,7 @@ const useAddLeads = (pageNumber: number) => {
   setHasMore(leads.length <= fullLeads.length)
   setLoading(false)
  }, [pageNumber])
- return { loading, leads, hasMore }
+ return { loading, leads, hasMore, numberOfLeads }
 }
 
 export default useAddLeads

@@ -4,21 +4,20 @@ import Head from 'next/head'
 import { useRef } from 'react'
 import Papa from 'papaparse'
 import { LeadCSVType, LeadType } from '../utils/types'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { leadsState } from '../atoms/leadsAtom'
 import { useRouter } from 'next/router'
 
 const UploadPage: NextPage = () => {
  const router = useRouter()
  const filePickerRef = useRef<HTMLInputElement | null>(null)
- // const [file, setFile] = useState<string | ArrayBuffer | null>(null)
- const setLeads = useSetRecoilState(leadsState)
+ const [leads, setLeads] = useRecoilState(leadsState)
  const uploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
   Papa.parse(e.target.files![0], {
    header: true,
    skipEmptyLines: true,
    complete: function ({ data }: { data: LeadCSVType[] }) {
-    const leads: LeadType[] = data.map((leadCSV) => ({
+    const newLeads: LeadType[] = data.map((leadCSV) => ({
      phoneNumber: leadCSV.Teléfono,
      name: leadCSV.Nombre,
      value: leadCSV['Valor $'],
@@ -42,12 +41,11 @@ const UploadPage: NextPage = () => {
      archived: leadCSV.Archivado,
      manuallyCreated: leadCSV['Creado Manualmente'],
     }))
-    setLeads(leads)
+    setLeads([...leads, ...newLeads])
     router.push('/')
    },
   })
  }
- // console.warn({ file })
  return (
   <div className="flex min-h-screen flex-col items-center justify-center">
    <Head>

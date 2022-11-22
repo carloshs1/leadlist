@@ -1,12 +1,14 @@
 import React from 'react'
 import { LeadType } from '../utils/types'
 
-const Row: React.FC<{ lead: LeadType; innerRef?: (node: any) => void }> = ({
- lead,
- innerRef,
-}) => {
+const Row: React.FC<{
+ lead: LeadType
+ innerRef?: (node: any) => void
+ index: number
+}> = ({ lead, innerRef, index }) => {
  return (
   <tr ref={innerRef} className="bg-white border-b hover:bg-gray-50">
+   <td className="p-4">{index}</td>
    <td className="p-4">{lead.phoneNumber}</td>
    <td className="p-4">{lead.name}</td>
    <td className="p-4">{lead.value}</td>
