@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { leadsState } from '../atoms/leadsAtom'
+import { LeadType } from '../utils/types'
 
-const useAddLeads = (pageNumber) => {
+const useAddLeads = (pageNumber: number) => {
  const fullLeads = useRecoilValue(leadsState)
  const [loading, setLoading] = useState(true)
- const [leads, setLeads] = useState([])
+ const [leads, setLeads] = useState<LeadType[]>([])
  const [hasMore, setHasMore] = useState(false)
  useEffect(() => {
   setLoading(true)
