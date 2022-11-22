@@ -47,28 +47,31 @@ const UploadPage: NextPage = () => {
   })
  }
  return (
-  <div className="flex min-h-screen flex-col items-center justify-center">
+  <div className="flex min-h-[60vh] flex-col items-center justify-center">
    <Head>
     <title>Upload - LeadList</title>
     <link rel="icon" href="/favicon.ico" />
    </Head>
 
-   <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
+   <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center gap-5">
+    <h1 className="font-thin text-2xl">
+     {!leads.length
+      ? 'Start by selecting a .csv file'
+      : 'Click to add more leads!'}
+    </h1>
     <button
-     className="p-3 bg-violet-600 rounded-full shadow-lg"
+     className="p-3 bg-violet-600 rounded-full shadow-lg hover:shadow-2xl hover:bg-gradient-to-tr from-violet-700 via-purple-800 to-violet-700"
      onClick={() => filePickerRef.current?.click()}
     >
      <ArrowUpTrayIcon className="h-8 text-white" />
     </button>
-    <form>
-     <input
-      ref={filePickerRef}
-      accept=".csv"
-      type="file"
-      hidden
-      onChange={uploadFile}
-     />
-    </form>
+    <input
+     ref={filePickerRef}
+     accept=".csv"
+     type="file"
+     hidden
+     onChange={uploadFile}
+    />
    </main>
   </div>
  )
