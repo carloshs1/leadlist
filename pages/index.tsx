@@ -1,13 +1,35 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useRecoilValue } from 'recoil'
-import { leadsState } from '../atoms/leadsAtom'
 import { v4 as uuid } from 'uuid'
 import Row from '../components/Row'
+import React, { useCallback, useRef, useState } from 'react'
+import useAddLeads from '../hooks/useAddLeads'
+import { LeadType } from '../utils/types'
 
 const Home: NextPage = () => {
- const leads = useRecoilValue(leadsState)
+ const observer: React.MutableRefObject<IntersectionObserver | undefined> =
+  useRef()
+ const [pageNumber, setPageNumber] = useState(1)
+ const {
+  loading,
+  hasMore,
+  leads,
+ }: { loading: boolean; hasMore: boolean; leads: LeadType[] } =
+  useAddLeads(pageNumber)
+ const lastLeadOnTableRef = useCallback(
+  (node: Element) => {
+   if (loading) return
+   if (observer.current) observer.current.disconnect()
+   observer.current = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && hasMore) {
+     setPageNumber((prevPageNumber) => prevPageNumber + 1)
+    }
+   })
+   if (node) observer.current.observe(node)
+  },
+  [loading, hasMore]
+ )
  return (
   <div className="flex flex-col items-center">
    <Head>
@@ -39,9 +61,9 @@ const Home: NextPage = () => {
           xmlns="http://www.w3.org/2000/svg"
          >
           <path
-           fill-rule="evenodd"
+           fillRule="evenodd"
            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-           clip-rule="evenodd"
+           clipRule="evenodd"
           ></path>
          </svg>
         </div>
@@ -126,9 +148,18 @@ const Home: NextPage = () => {
          </tr>
         </thead>
         <tbody>
-         {leads.map((lead) => (
-          <Row key={uuid()} lead={lead} />
-         ))}
+         {leads.map((lead, index) =>
+          leads.length === index + 1 ? (
+           <Row innerRef={lastLeadOnTableRef} key={uuid()} lead={lead} />
+          ) : (
+           <Row key={uuid()} lead={lead} />
+          )
+         )}
+         {loading && (
+          <tr>
+           <td>Loading</td>
+          </tr>
+         )}
         </tbody>
        </table>
       </div>
